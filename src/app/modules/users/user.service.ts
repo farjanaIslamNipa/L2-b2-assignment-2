@@ -3,7 +3,14 @@ import { User } from "./user.model";
 
 
 const createUserIntoDB = async (userData: TUser) => {
-    const result = await User.create(userData);
+    const user = new User(userData);
+
+    console.log(userData.userId, 'user id')
+    if(await user.isUserExist(userData.userId)){
+      throw new Error("User already exists")
+    }
+
+    const result = await user.save()
     return result;
 }
 
@@ -17,8 +24,14 @@ const getSingleUserFromDB = async (id: string) => {
   return result;
 }
 
+const updateUserIntoDB = async (id: string, key: string) => {
+  const result = await User.updateOne({userId: id}, {property: key})
+  return result;
+}
+
 export const UserServices = {
   createUserIntoDB,
   getAllUsersFromDB,
-  getSingleUserFromDB
+  getSingleUserFromDB,
+  updateUserIntoDB
 }

@@ -30,4 +30,8 @@ export type TUser = {
   orders: TOrders[];
 }
 
-export type UserModel = Model<TUser>
+export type UserMethods = {
+  isUserExist(id: number): Promise<TUser | null>
+}
+
+export type UserModel = Model<TUser, Record<string, never>, UserMethods>
