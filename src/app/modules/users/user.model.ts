@@ -104,6 +104,19 @@ userSchema.post('save', function(doc, next){
   next()
 })
 
+userSchema.pre('find', function(next){
+  this.find({isActive: {$ne: false}})
+  next()
+})
+userSchema.pre('findOne', function(next){
+  this.find({isActive: {$ne: false}})
+  next()
+})
+userSchema.pre('aggregate', function(next){
+  this.pipeline().unshift({$match: {isActive: {$ne: false}}})
+  next()
+})
+
 // instance method to check if user exists
 userSchema.methods.isUserExist = async function(id: number){
  const existingUser = await User.findOne({userId: id});
