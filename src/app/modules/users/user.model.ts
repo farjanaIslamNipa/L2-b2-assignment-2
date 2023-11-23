@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
 import { TAddress, TOrders, TUser, TUserName, UserMethods, UserModel } from './user.interface';
+import bcrypt from 'bcrypt'
+import config from '../../config';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -89,7 +91,18 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({
   }
 })
 
+// hashing password
+userSchema.pre('save', async function(next){
+  //eslint-disable-next-line
+  const user = this;
+  user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds))
+  next()
+})
 
+userSchema.post('save', function(doc, next){
+  doc.password =''
+  next()
+})
 
 // instance method to check if user exists
 userSchema.methods.isUserExist = async function(id: number){

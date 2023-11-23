@@ -15,7 +15,7 @@ const createUserIntoDB = async (userData: TUser) => {
 }
 
 const getAllUsersFromDB = async () => {
-  const result = await User.find()
+  const result = await User.find().select('username fullName age email address')
   return result;
 }
 
