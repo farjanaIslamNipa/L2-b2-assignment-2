@@ -57,7 +57,8 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
   fullName: {
     type: userNameSchema,
@@ -75,7 +76,8 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({
   },
   isActive: {
     type: Boolean,
-    required: true
+    required: true,
+    default: true
   },
   hobbies: {
     type: [String],
@@ -86,8 +88,7 @@ const userSchema = new Schema<TUser, UserModel, UserMethods>({
     required: true
   },
   orders: {
-    type: [orderSchema],
-    required: true
+    type: [orderSchema]
   }
 })
 

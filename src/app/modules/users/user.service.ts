@@ -18,19 +18,30 @@ const getAllUsersFromDB = async () => {
   return result;
 }
 
-const getSingleUserFromDB = async (id: string) => {
+const getSingleUserFromDB = async (id: number) => {
   const result = await User.findOne({userId: id}).select('-password');
   return result;
 }
 
-const updateUserIntoDB = async (id: string, body: object) => {
+const updateUserIntoDB = async (id: number, body: object) => {
   const result = await User.updateOne({userId: id}, body)
     return result;
 
 }
 
-const deleteUserFromDB = async (id: string) => {
+const deleteUserFromDB = async (id: number) => {
   const result = await User.updateOne({userId: id}, {isActive: false})
+  return result;
+}
+
+const addOrderToUserIntoDB = async (id: number, order: object) => {
+  
+  const result = await User.updateOne({userId: id}, {$push: {orders: order}})
+  return result
+}
+
+const getSingleUserOrdersFromDB = async(id: number) => {
+  const result = await User.findOne({userId: id}).select('orders')
   return result;
 }
 
@@ -39,5 +50,7 @@ export const UserServices = {
   getAllUsersFromDB,
   getSingleUserFromDB,
   updateUserIntoDB,
-  deleteUserFromDB
+  deleteUserFromDB,
+  addOrderToUserIntoDB,
+  getSingleUserOrdersFromDB
 }

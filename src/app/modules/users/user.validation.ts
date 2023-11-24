@@ -12,7 +12,7 @@ const addressValidationSchema = z.object({
   country: z.string().min(1, { message: "Country is required" }),
 });
 
-const orderValidationSchema = z.object({
+const orderValidation = z.object({
   productName: z.string().min(1, { message: "Product name is required" }),
   price: z.number().min(0, { message: "Price must be greater than or equal to 0" }),
   quantity: z.number().min(1, { message: "Quantity must be greater than or equal to 1" }),
@@ -25,10 +25,10 @@ const userValidationSchema = z.object({
   fullName: userNameValidationSchema,
   age: z.number().min(0, { message: "Age must be greater than or equal to 0" }),
   email: z.string().email({ message: "Invalid email address" }),
-  isActive: z.boolean(),
+  isActive: z.boolean().default(true),
   hobbies: z.array(z.string().min(1, { message: "Hobby is required" })),
   address: addressValidationSchema,
-  orders: z.array(orderValidationSchema),
+  orders: orderValidation.optional(),
 });
 
-export default userValidationSchema;
+export default userValidationSchema
