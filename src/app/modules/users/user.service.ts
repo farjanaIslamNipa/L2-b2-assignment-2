@@ -44,6 +44,26 @@ const getSingleUserOrdersFromDB = async(id: number) => {
   const result = await User.findOne({userId: id}).select('orders')
   return result;
 }
+const calculateUserOrdersTotalPrice = async(id: number) => {
+  const result = await User.aggregate([
+    {$match: {userId: id}},
+    {
+      $unwind: "$orders"
+    },
+    {
+      $group: {
+        _id: id,
+        total: {
+          $sum: "$orders.price"
+        },
+        
+      },
+      
+    },
+    
+  ])
+  return result;
+}
 
 export const UserServices = {
   createUserIntoDB,
@@ -52,5 +72,6 @@ export const UserServices = {
   updateUserIntoDB,
   deleteUserFromDB,
   addOrderToUserIntoDB,
-  getSingleUserOrdersFromDB
+  getSingleUserOrdersFromDB,
+  calculateUserOrdersTotalPrice
 }
