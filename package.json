@@ -2,7 +2,7 @@
   "name": "l2-b2-assignment-2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start:prod": "node ./dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",

@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Define Zod schemas for each sub-schema
 const userNameValidationSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
