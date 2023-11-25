@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { TAddress, TOrders, TUser, TUserName, UserMethods, UserModel } from './user.interface';
+import { TAddress, TOrders, TUser, TUserName, UserModel } from './user.interface';
 import bcrypt from 'bcrypt'
 import config from '../../config';
 
@@ -44,7 +44,7 @@ const orderSchema = new Schema<TOrders>({
   }
 })
 
-const userSchema = new Schema<TUser, UserModel, UserMethods>({
+const userSchema = new Schema<TUser, UserModel>({
   userId: {
     type: Number,
     required: true,
@@ -118,10 +118,10 @@ userSchema.pre('aggregate', function(next){
   next()
 })
 
-// instance method to check if user exists
-userSchema.methods.isUserExist = async function(id: number){
- const existingUser = await User.findOne({userId: id});
- return existingUser;
+// Static method to check existing user
+userSchema.statics.isUserExists = async function(id: number){
+  const existingUser = await User.findOne({userId: id})
+  return existingUser;
 }
 
 
